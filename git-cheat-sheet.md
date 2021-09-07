@@ -14,3 +14,8 @@ git create tag
 ```
 git tag -a vX.Y.Z -m "the message for tag"
 ```
+
+git undo last commit
+```
+git reset HEAD~
+```
