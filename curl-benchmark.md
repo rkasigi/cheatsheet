@@ -27,13 +27,15 @@ cURL supports formatted output for the details of the request (see the cURL manp
 ```
 
 What this does:
+```
 -w "@curl-format.txt" tells cURL to use our format file
 -o /dev/null redirects the output of the request to /dev/null
 -s tells cURL not to show a progress meter
 "http://wordpress.com/" is the URL we are requesting. Use quotes particularly if your URL has "&" query string parameters
-
 ```
+
 And here is what you get back:
+```
    time_namelookup:  0.001s
       time_connect:  0.037s
    time_appconnect:  0.000s
