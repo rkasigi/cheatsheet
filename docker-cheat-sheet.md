@@ -30,6 +30,11 @@ docker service inspect --format='{{range .Spec.TaskTemplate.ContainerSpec.Env}}{
 docker service ps -f desired-state=running YOUR-SERVICE-NAME
 ```
 
+### Get Update Status
+```
+docker service inspect --format='{{json .UpdateStatus}}' YOUR-SERVICE-NAME
+```
+
 ## Docker Network
 ### Docker Get IP Address From Container on Docker Swarm
 ```
