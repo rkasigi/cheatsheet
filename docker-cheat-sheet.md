@@ -49,3 +49,33 @@ docker network inspect docker_gwbridge | \
 docker node ls -q | xargs docker node inspect \
   -f '{{ .ID }} [{{ .Description.Hostname }}]: {{ range $k, $v := .Spec.Labels }}{{ $k }}={{ $v }} {{end}}'
 ```
+
+## Docker Daemon
+### Docker clean up storage
+```
+docker image rm $(docker images REGISTRY_URL/TEAM_NAME/* -q) -f
+sudo sh -c "truncate -s 0 /var/lib/docker/containers/*/*-json.log"
+sudo docker builder prune
+sudo docker image prune
+docker rm $(docker ps -a -f status=exited -q)
+
+docker exec -i $(docker ps -f name=SERVICE_REGISTRY_NAME -q) bin/registry garbage-collect /etc/docker/registry/config.yml
+```
+
+### Docker determining container responsible for largest overlay directories
+```
+# as root
+sudo su
+
+# grab the size and path to the largest overlay dir
+du /var/lib/docker/overlay2 -h | sort -h | tail -n 100 | grep -vE "overlay2$" > large-overlay.txt
+
+# make sure json parser is installed 
+apt-get install jq -y 
+
+# construct mappings of name to hash
+docker inspect $(docker ps -qa) | jq -r 'map([.Name, .GraphDriver.Data.MergedDir]) | .[] | "\(.[0])\t\(.[1])"' > docker-mappings.txt
+
+# for each hashed path, find matching container name
+cat large-overlay.txt | xargs -l bash -c 'if grep $1 docker-mappings.txt; then echo -n "$0 "; fi'
+```
