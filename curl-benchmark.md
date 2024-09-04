@@ -97,3 +97,8 @@ Source:
 ```
 https://stackoverflow.com/questions/18215389/how-do-i-measure-request-and-response-times-at-once-using-curl
 ```
+
+## 3. Simple curl request
+```
+while true; do curl -k -w '* Response time: %{time_total}s\n' -s http://wordpress.com/ -o /dev/null ; sleep 2; done
+```
