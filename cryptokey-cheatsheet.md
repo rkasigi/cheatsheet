@@ -6,7 +6,28 @@
 openssl pkcs12 -in INFILE.p12 -out OUTFILE.key -nodes -nocerts
 ```
 
+if you got an error like below, you can add `-legacy` parameter in it
+```
+4042C6F701000000:error:0308010C:digital envelope routines:inner_evp_generic_fetch:unsupported:crypto/evp/evp_fetch.c:355:Global default library context, Algorithm (RC2-40-CBC : 0), Properties ()
+```
+
+the complete command using `-legacy`
+```
+openssl pkcs12 -in INFILE.p12 -out OUTFILE.key -nodes -nocerts -legacy
+```
+
+
 ### Extract private key from p12 file
+```
+openssl pkcs12 -in INFILE.p12 -out OUTFILE.crt -nokeys
+```
+
+if you got an error like below, you can add `-legacy` parameter in it
+```
+4042C6F701000000:error:0308010C:digital envelope routines:inner_evp_generic_fetch:unsupported:crypto/evp/evp_fetch.c:355:Global default library context, Algorithm (RC2-40-CBC : 0), Properties ()
+```
+
+the complete command using `-legacy`
 ```
 openssl pkcs12 -in INFILE.p12 -out OUTFILE.crt -nokeys
 ```
